@@ -67,7 +67,6 @@ class ProgramSubjectResource extends Resource
                             ->disabled('edit')
                             ->getOptionLabelFromRecordUsing(fn ($record) => $record->name)
                             ->required()
-                            ->unique('program_subjects', 'subject_id')
                             ->searchable()
                             ->preload()
                             ->createOptionForm([
@@ -168,10 +167,6 @@ class ProgramSubjectResource extends Resource
                     ->relationship('trainingProgram', 'name')
                     ->searchable()
                     ->preload(),
-                Tables\Filters\SelectFilter::make('semester')
-                    ->label('Học kỳ')
-                    ->options(array_combine(range(1, 10), range(1, 10)))
-                    ->multiple(),
                 Tables\Filters\TernaryFilter::make('is_required')
                     ->label('Môn bắt buộc')
                     ->boolean()
