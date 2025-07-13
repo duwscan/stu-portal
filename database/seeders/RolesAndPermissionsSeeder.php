@@ -26,6 +26,7 @@ class RolesAndPermissionsSeeder extends Seeder
         // Tạo role admin và student
         $admin = Role::firstOrCreate(['name' => 'admin']);
         $student = Role::firstOrCreate(['name' => 'student']);
+        $teacher = Role::firstOrCreate(['name' => 'teacher']);
 
         // Gán quyền cho admin
         $admin->syncPermissions($permissions);

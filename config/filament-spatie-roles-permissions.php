@@ -11,12 +11,12 @@ return [
 
     'preload_permissions' => true,
 
-    'navigation_section_group' => 'filament-spatie-roles-permissions::filament-spatie.section.roles_and_permissions', // Default uses language constant
+    'navigation_section_group' => 'Cài đặt', // Default uses language constant
 
     'team_model' => \App\Models\Team::class,
 
     'scope_to_tenant' => true,
-    
+
     'scope_roles_to_tenant' => true,
     'scope_premissions_to_tenant' => false,
 
@@ -133,8 +133,8 @@ return [
      */
 
     'sort' => [
-        'role_navigation' => false,
-        'permission_navigation' => false
+        'role_navigation' => 1,
+        'permission_navigation' => 2
     ],
 
     'generator' => [

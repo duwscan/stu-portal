@@ -40,6 +40,7 @@ class AdminPanelProvider extends PanelProvider
                 \App\Filament\Resources\TrainingProgramResource::class,
                 \App\Filament\Resources\SubjectResource::class,
                 \App\Filament\Resources\ProgramSubjectResource::class,
+                \App\Filament\Resources\ClassRoomResource::class,
             ])
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([

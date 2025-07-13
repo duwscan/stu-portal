@@ -21,6 +21,11 @@ class Semester extends Model
         'end_date' => 'date',
     ];
 
+    public function getFormattedNameAttribute(): string
+    {
+        return "{$this->name} ({$this->start_date->format('m/Y')} - {$this->end_date->format('m/Y')})";
+    }
+
     public function students(): BelongsToMany
     {
         return $this->belongsToMany(Student::class)
