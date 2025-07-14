@@ -27,7 +27,7 @@ class OpenClassRequestResource extends Resource
 {
     protected static ?string $model = OpenClassRequest::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-academic-cap';
+    protected static ?string $navigationIcon = 'heroicon-o-plus-circle';
 
     protected static ?string $navigationLabel = 'Yêu cầu mở lớp';
 

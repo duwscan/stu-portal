@@ -23,7 +23,7 @@ class ClassAdjustmentRequestResource extends Resource
 {
     protected static ?string $model = ClassAdjustmentRequest::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-arrow-path';
+    protected static ?string $navigationIcon = 'heroicon-o-arrows-right-left';
 
     protected static ?string $navigationLabel = 'Yêu cầu điều chỉnh lớp học';
 

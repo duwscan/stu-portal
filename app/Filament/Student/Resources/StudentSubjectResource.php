@@ -15,7 +15,7 @@ class StudentSubjectResource extends Resource
 {
     protected static ?string $model = StudentSubject::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-academic-cap';
+    protected static ?string $navigationIcon = 'heroicon-o-document-text';
 
     protected static ?string $navigationLabel = 'Điểm môn học';
 

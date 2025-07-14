@@ -17,7 +17,7 @@ class OpenClassRoomResource extends Resource
 {
     protected static ?string $model = ClassRoom::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-academic-cap';
+    protected static ?string $navigationIcon = 'heroicon-o-book-open';
 
     protected static ?string $navigationLabel = 'Đăng ký lớp học phần';
 
