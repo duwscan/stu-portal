@@ -73,7 +73,7 @@ class ClassRoom extends Model
 
         // Kiểm tra các môn tiên quyết
         $prerequisiteSubjects = $this->subject->prerequisites;
-        if ($prerequisiteSubjects->isEmpty()) {
+        if (!$prerequisiteSubjects || $prerequisiteSubjects->isEmpty()) {
             return true;
         }
 

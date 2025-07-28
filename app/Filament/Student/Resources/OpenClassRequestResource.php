@@ -281,9 +281,14 @@ class OpenClassRequestResource extends Resource
                     ->schema([
                         TextEntry::make('students')
                             ->label('')
+                            ->html()
                             ->listWithLineBreaks()
-                            ->formatStateUsing(fn (OpenClassRequest $record): array =>
-                                $record->students()->with('user')->get()->map(fn ($student) => $student->user->name)->toArray()
+                            ->formatStateUsing(fn (OpenClassRequest $record): string =>
+                                $record->students()
+                                ->with('user')
+                                ->get()
+                                ->map(fn ($student) => "{$student->user->name}")
+                                ->implode('<br>')
                             )
                             ->columnSpan(3),
                     ])
