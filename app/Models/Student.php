@@ -15,6 +15,15 @@ class Student extends Model
         'user_id',
         'student_code',
         'training_program_id',
+        'gender',
+        'address',
+        'class',
+        'faculty',
+        'birth_date'
+    ];
+
+    protected $casts = [
+        'birth_date' => 'date',
     ];
 
     public function user(): BelongsTo
