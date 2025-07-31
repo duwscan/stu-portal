@@ -179,7 +179,6 @@ class ClassAdjustmentRequestResource extends Resource
                     ]),
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
                 Tables\Actions\Action::make('cancel')
                     ->label('Hủy yêu cầu')
                     ->icon('heroicon-o-x-mark')

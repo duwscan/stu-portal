@@ -21,6 +21,6 @@ class CreateOpenClassRequest extends CreateRecord
     protected function afterCreate(): void
     {
         // Tự động thêm người tạo vào danh sách sinh viên tham gia
-        $this->record->students()->attach($this->record->student_id);
+//        $this->record->students()->attach($this->record->student_id);
     }
 }
