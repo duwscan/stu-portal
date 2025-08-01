@@ -111,6 +111,16 @@ class OpenClassRequestResource extends Resource
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
+                    Tables\Actions\BulkAction::make('export_selected')
+                        ->label('Xuất dữ liệu đã chọn')
+                        ->icon('heroicon-o-arrow-down-tray')
+                        ->color('success')
+                        ->action(function ($records) {
+                            return \Maatwebsite\Excel\Facades\Excel::download(
+                                new \App\Exports\OpenClassRequestExport(null, collect($records)),
+                                'yeu-cau-mo-lop-selected-' . now()->format('Y-m-d-H-i-s') . '.xlsx'
+                            );
+                        }),
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ])
