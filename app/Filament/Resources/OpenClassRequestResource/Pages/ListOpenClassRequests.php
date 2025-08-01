@@ -24,9 +24,21 @@ class ListOpenClassRequests extends ListRecords
                 ->action(function () {
                     $query = $this->getFilteredTableQuery();
                     
-                    return Excel::download(
-                        new OpenClassRequestExport($query),
+                    return \Maatwebsite\Excel\Facades\Excel::download(
+                        new \App\Exports\OpenClassRequestExport($query),
                         'yeu-cau-mo-lop-' . now()->format('Y-m-d-H-i-s') . '.xlsx'
+                    );
+                }),
+            Actions\Action::make('export_detailed')
+                ->label('Xuất Excel chi tiết')
+                ->icon('heroicon-o-document-arrow-down')
+                ->color('info')
+                ->action(function () {
+                    $query = $this->getFilteredTableQuery();
+                    
+                    return \Maatwebsite\Excel\Facades\Excel::download(
+                        new \App\Exports\OpenClassRequestDetailedExport($query),
+                        'yeu-cau-mo-lop-chi-tiet-' . now()->format('Y-m-d-H-i-s') . '.xlsx'
                     );
                 }),
             // Actions\CreateAction::make(),

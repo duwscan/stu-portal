@@ -121,6 +121,16 @@ class OpenClassRequestResource extends Resource
                                 'yeu-cau-mo-lop-selected-' . now()->format('Y-m-d-H-i-s') . '.xlsx'
                             );
                         }),
+                    Tables\Actions\BulkAction::make('export_selected_detailed')
+                        ->label('Xuất chi tiết đã chọn')
+                        ->icon('heroicon-o-document-arrow-down')
+                        ->color('info')
+                        ->action(function ($records) {
+                            return \Maatwebsite\Excel\Facades\Excel::download(
+                                new \App\Exports\OpenClassRequestDetailedExport(null, collect($records)),
+                                'yeu-cau-mo-lop-chi-tiet-selected-' . now()->format('Y-m-d-H-i-s') . '.xlsx'
+                            );
+                        }),
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ])
