@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources;
 
+use App\Exports\OpenClassRequestExport;
+use App\Exports\OpenClassRequestDetailedExport;
 use App\Filament\Resources\OpenClassRequestResource\Pages;
 use App\Models\OpenClassRequest;
 use App\Models\Semester;
@@ -108,29 +110,29 @@ class OpenClassRequestResource extends Resource
             ->actions([
                 Tables\Actions\ViewAction::make()
                     ->label('Xem chi tiết'),
+                Tables\Actions\Action::make('export')
+                    ->label('Xuất Excel')
+                    ->icon('heroicon-o-arrow-down-tray')
+                    ->color('success')
+                    ->action(function (OpenClassRequest $record) {
+                        return \Maatwebsite\Excel\Facades\Excel::download(
+                            new \App\Exports\OpenClassRequestExport(null, collect([$record])),
+                            'yeu-cau-mo-lop-' . $record->id . '-' . now()->format('Y-m-d-H-i-s') . '.xlsx'
+                        );
+                    }),
+                Tables\Actions\Action::make('export_detailed')
+                    ->label('Xuất Excel chi tiết')
+                    ->icon('heroicon-o-document-arrow-down')
+                    ->color('info')
+                    ->action(function (OpenClassRequest $record) {
+                        return \Maatwebsite\Excel\Facades\Excel::download(
+                            new \App\Exports\OpenClassRequestDetailedExport(null, collect([$record])),
+                            'yeu-cau-mo-lop-chi-tiet-' . $record->id . '-' . now()->format('Y-m-d-H-i-s') . '.xlsx'
+                        );
+                    }),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\BulkAction::make('export_selected')
-                        ->label('Xuất dữ liệu đã chọn')
-                        ->icon('heroicon-o-arrow-down-tray')
-                        ->color('success')
-                        ->action(function ($records) {
-                            return \Maatwebsite\Excel\Facades\Excel::download(
-                                new \App\Exports\OpenClassRequestExport(null, collect($records)),
-                                'yeu-cau-mo-lop-selected-' . now()->format('Y-m-d-H-i-s') . '.xlsx'
-                            );
-                        }),
-                    Tables\Actions\BulkAction::make('export_selected_detailed')
-                        ->label('Xuất chi tiết đã chọn')
-                        ->icon('heroicon-o-document-arrow-down')
-                        ->color('info')
-                        ->action(function ($records) {
-                            return \Maatwebsite\Excel\Facades\Excel::download(
-                                new \App\Exports\OpenClassRequestDetailedExport(null, collect($records)),
-                                'yeu-cau-mo-lop-chi-tiet-selected-' . now()->format('Y-m-d-H-i-s') . '.xlsx'
-                            );
-                        }),
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ])
