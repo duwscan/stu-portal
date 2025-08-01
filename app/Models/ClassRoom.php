@@ -73,19 +73,8 @@ class ClassRoom extends Model
             return false;
         }
 
-        // Kiểm tra các môn tiên quyết
-        $prerequisiteSubjects = $this->subject->prerequisites;
-        if (!$prerequisiteSubjects || $prerequisiteSubjects->isEmpty()) {
-            return true;
-        }
-
-        // Kiểm tra điểm các môn tiên quyết
-        $passedPrerequisites = StudentSubject::where('student_id', $student->id)
-            ->whereIn('subject_id', $prerequisiteSubjects->pluck('id'))
-            ->where('status', 'passed')
-            ->count();
-
-        return $passedPrerequisites === $prerequisiteSubjects->count();
+        // Removed prerequisite checking logic as requested
+        return true;
     }
 
     public function teacher(): BelongsTo
@@ -147,34 +136,11 @@ class ClassRoom extends Model
         }
 
         $prerequisiteIds = $programSubject->prerequisites->pluck('id');
-        if (!$prerequisiteIds->isEmpty()) {
-            $passedSubjects = StudentSubject::where('student_id', $student->id)
-                ->whereIn('program_subject_id', $prerequisiteIds)
-                ->where('status', 'passed')
-                ->pluck('program_subject_id');
-            $notPassedSubjects = $programSubject->prerequisites()
-                ->whereNotIn('program_subjects.id', $passedSubjects)
-                ->get();
-
-            if ($notPassedSubjects->isNotEmpty()) {
-                $classStatus->canRegister = false;
-                $classStatus->description = 'Chưa qua môn: ' . $notPassedSubjects->pluck('subject.name')->join(', ');
-                return $classStatus;
-            }
-        }
-
+        // Removed prerequisite checking logic as requested
+        
         $corequisites = $programSubject->corequisites->pluck('id');
-        if ($corequisites->isNotEmpty()) {
-            $passedCorequisites = StudentSubject::where('student_id', $student->id)
-                ->whereIn('program_subject_id', $corequisites)
-                ->pluck('program_subject_id');
-
-            if ($passedCorequisites->count() < $corequisites->count()) {
-                $classStatus->description = 'Chưa học các môn: ' . $programSubject->corequisites->pluck('subject.name')->join(', ');
-                $classStatus->canRegister = false;
-                return $classStatus;
-            }
-        }
+        // Removed corequisite checking logic as requested
+        
         return $classStatus;
     }
 }

@@ -46,19 +46,7 @@ class Student extends Model
         return $this->hasMany(StudentSubject::class);
     }
 
-    public function getCurrentClassRooms()
-    {
-        $currentSemester = Semester::getCurrentSemester();
 
-        if (!$currentSemester) {
-            return collect();
-        }
-
-        return $this->classRooms()
-            ->where('semester_id', $currentSemester->id)
-            ->with(['subject', 'semester'])
-            ->get();
-    }
 
     public function semesters()
     {
