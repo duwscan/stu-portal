@@ -52,6 +52,22 @@ class OpenClassRoomResource extends Resource
                     ->falseIcon('heroicon-o-x-circle')
                     ->trueColor('success')
                     ->falseColor('danger'),
+//                Tables\Columns\TextColumn::make('start_date')
+//                    ->label('Bắt đầu đăng ký')
+//                    ->dateTime('d/m/Y H:i')
+//                    ->sortable()
+//                    ->placeholder('Chưa thiết lập'),
+//                Tables\Columns\TextColumn::make('end_date')
+//                    ->label('Kết thúc đăng ký')
+//                    ->dateTime('d/m/Y H:i')
+//                    ->sortable()
+//                    ->placeholder('Chưa thiết lập'),
+                Tables\Columns\TextColumn::make('shift_name')
+                    ->label('Ca học')
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('day_of_week_name')
+                    ->label('Thứ')
+                    ->sortable(),
                 RegisterStatusColumn::make('register_status')
                     ->label('Trạng thái đăng ký')
 

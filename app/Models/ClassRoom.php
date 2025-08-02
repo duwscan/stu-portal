@@ -19,11 +19,19 @@ class ClassRoom extends Model
         'capacity',
         'is_open',
         'user_id',
+        'start_date',
+        'end_date',
+        'shift',
+        'day_of_week',
     ];
 
     protected $casts = [
         'is_open' => 'boolean',
         'capacity' => 'integer',
+        'start_date' => 'datetime',
+        'end_date' => 'datetime',
+        'shift' => 'string',
+        'day_of_week' => 'string',
     ];
 
     protected $appends = [
@@ -91,6 +99,29 @@ class ClassRoom extends Model
     public function teacher(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function getShiftNameAttribute(): string
+    {
+        return match($this->shift) {
+            'morning' => 'Ca sáng',
+            'afternoon' => 'Ca chiều',
+            default => 'Chưa thiết lập',
+        };
+    }
+
+    public function getDayOfWeekNameAttribute(): string
+    {
+        return match($this->day_of_week) {
+            'monday' => 'Thứ 2',
+            'tuesday' => 'Thứ 3',
+            'wednesday' => 'Thứ 4',
+            'thursday' => 'Thứ 5',
+            'friday' => 'Thứ 6',
+            'saturday' => 'Thứ 7',
+            'sunday' => 'Chủ nhật',
+            default => 'Chưa thiết lập',
+        };
     }
 
     public function getRegisterStatus(User $user) : ClassRegisterStatus {
