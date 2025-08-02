@@ -70,10 +70,29 @@ class OpenClassRequest extends Model
         }
 
         // Kiểm tra môn học có trong chương trình đào tạo không
-        $programSubject = $student->trainingProgram->programSubjects()
-            ->where('subject_id', $this->subject_id)
+        $programSubject = null;
+        $programSubjects = \App\Models\ProgramSubject::where('subject_id', $this->subject_id)
             ->where('is_active', true)
-            ->first();
+            ->with('trainingProgram')
+            ->get();
+
+        foreach ($programSubjects as $item) {
+            if ($item->trainingProgram->degree_type === $student->trainingProgram->degree_type) {
+                $programSubject = $item;
+                break;
+            } else {
+                // Nếu không tìm thấy chương trình đào tạo phù hợp, kiểm tra chương trình "Lựa chọn"
+                if ($item->trainingProgram->code === 'LC') {
+                    $programSubject = $item;
+                    break;
+                }
+
+                if($item->trainingProgram->code === 'KS') {
+                    $programSubject = $item;
+                    break;
+                }
+            }
+        }
 
         if (!$programSubject) {
             return [false, 'Môn học không có trong chương trình đào tạo của bạn'];
@@ -82,17 +101,29 @@ class OpenClassRequest extends Model
         // Kiểm tra các môn tiên quyết
         $prerequisiteIds = $programSubject->prerequisites->pluck('id');
         if ($prerequisiteIds->isNotEmpty()) {
-            $passedSubjects = StudentSubject::where('student_id', $student->id)
+            $passedSubjects = \App\Models\StudentSubject::where('student_id', $student->id)
                 ->whereIn('program_subject_id', $prerequisiteIds)
                 ->where('status', 'passed')
                 ->pluck('program_subject_id');
 
             $notPassedSubjects = $programSubject->prerequisites()
-                ->whereNotIn('id', $passedSubjects)
+                ->whereNotIn('program_subjects.id', $passedSubjects)
                 ->get();
 
             if ($notPassedSubjects->isNotEmpty()) {
                 return [false, 'Chưa qua môn: ' . $notPassedSubjects->pluck('subject.name')->join(', ')];
+            }
+        }
+
+        // Kiểm tra các môn học song hành
+        $corequisites = $programSubject->corequisites->pluck('id');
+        if ($corequisites->isNotEmpty()) {
+            $passedCorequisites = \App\Models\StudentSubject::where('student_id', $student->id)
+                ->whereIn('program_subject_id', $corequisites)
+                ->pluck('program_subject_id');
+
+            if ($passedCorequisites->count() < $corequisites->count()) {
+                return [false, 'Chưa học các môn: ' . $programSubject->corequisites->pluck('subject.name')->join(', ')];
             }
         }
 

@@ -18,11 +18,11 @@ class ClassRoomResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-academic-cap';
 
-    protected static ?string $navigationLabel = 'Lớp học phần đã đăng ký';
+    protected static ?string $navigationLabel = 'Lớp học phần';
 
-    protected static ?string $modelLabel = 'Lớp học phần đã đăng ký';
+    protected static ?string $modelLabel = 'Lớp học phần';
 
-    protected static ?string $pluralModelLabel = 'Lớp học phần đã đăng ký';
+    protected static ?string $pluralModelLabel = 'Lớp học phần';
 
     public static function table(Table $table): Table
     {
@@ -39,15 +39,22 @@ class ClassRoomResource extends Resource
                 Tables\Columns\TextColumn::make('subject.credits')
                     ->label('Số tín chỉ')
                     ->sortable(),
+                Tables\Columns\TextColumn::make('registered_count')
+                    ->label('Số lượng đã đăng ký')
+                    ->formatStateUsing(fn(ClassRoom $record): string => "{$record->registered_count}/{$record->capacity}")
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('semester.name')
                     ->label('Học kỳ')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('registration_date')
-                    ->label('Ngày đăng ký')
-                    ->dateTime('d/m/Y H:i')
-                    ->sortable(),
+                Tables\Columns\IconColumn::make('is_open')
+                    ->label('Trạng thái')
+                    ->boolean()
+                    ->trueIcon('heroicon-o-check-circle')
+                    ->falseIcon('heroicon-o-x-circle')
+                    ->trueColor('success')
+                    ->falseColor('danger'),
             ])
-            ->defaultSort('registration_date', 'desc')
+            ->defaultSort('subject.name')
             ->filters([
                 Tables\Filters\SelectFilter::make('semester_id')
                     ->label('Học kỳ')
@@ -71,16 +78,10 @@ class ClassRoomResource extends Resource
 
     public static function getEloquentQuery(): Builder
     {
-        $student = auth()->user()?->student;
-
-        if (!$student) {
-            return parent::getEloquentQuery()->whereRaw('1 = 0'); // Return empty query if no student
-        }
-
         return parent::getEloquentQuery()
-            ->select('class_rooms.*', 'class_room_student.created_at as registration_date')
-            ->join('class_room_student', 'class_rooms.id', '=', 'class_room_student.class_room_id')
-            ->where('class_room_student.student_id', $student->id)
+            ->whereHas('semester', function (Builder $query) {
+                $query->where('id', Semester::getCurrentSemester()?->id);
+            })
             ->with(['subject', 'semester']);
     }
 }

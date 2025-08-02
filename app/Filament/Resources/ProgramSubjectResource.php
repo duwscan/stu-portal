@@ -115,6 +115,7 @@ class ProgramSubjectResource extends Resource
                             ->searchable()
                             ->preload()
                     ]),
+
             ]);
     }
 
@@ -156,10 +157,10 @@ class ProgramSubjectResource extends Resource
                                 $query->where('subjects.name', 'like', "%{$search}%");
                             });
                     }),
-                Tables\Columns\TextColumn::make('prerequisites_count')
-                    ->label('Số môn tiên quyết')
-                    ->counts('prerequisites')
-                    ->alignCenter(),
+                Tables\Columns\TextColumn::make('corequisites.subject.name')
+                    ->label('Môn học trước')
+                    ->listWithLineBreaks()
+                    ->bulleted()
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('training_program_id')

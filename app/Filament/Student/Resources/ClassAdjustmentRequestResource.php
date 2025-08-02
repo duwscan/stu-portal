@@ -33,7 +33,6 @@ class ClassAdjustmentRequestResource extends Resource
 
     public static function form(Form $form): Form
     {
-        $student = auth()->user()?->student;
         $currentSemester = Semester::getCurrentSemester();
 
         return $form
@@ -56,13 +55,12 @@ class ClassAdjustmentRequestResource extends Resource
                     ->dehydrated(),
                 Forms\Components\Select::make('from_class_id')
                     ->label('Lớp học muốn hủy/đổi')
-                    ->options(function () use ($student, $currentSemester) {
-                        if (!$student || !$currentSemester) {
+                    ->options(function () use ($currentSemester) {
+                        if (!$currentSemester) {
                             return [];
                         }
-                        // Lấy danh sách lớp đã đăng ký trong học kỳ hiện tại
-                        return $student->classRooms()
-                            ->where('semester_id', $currentSemester->id)
+                        // Lấy tất cả lớp học trong học kỳ hiện tại
+                        return ClassRoom::where('semester_id', $currentSemester->id)
                             ->with('subject')
                             ->get()
                             ->mapWithKeys(function ($classRoom) {
@@ -76,20 +74,14 @@ class ClassAdjustmentRequestResource extends Resource
                     ->visible(fn (Forms\Get $get): bool => in_array($get('type'), ['cancel', 'change'])),
                 Forms\Components\Select::make('to_class_id')
                     ->label('Lớp học muốn đăng ký')
-                    ->options(function () use ($student, $currentSemester) {
-                        if (!$student || !$currentSemester) {
+                    ->options(function () use ($currentSemester) {
+                        if (!$currentSemester) {
                             return [];
                         }
 
-                        // Lấy danh sách lớp học đang mở trong học kỳ hiện tại
-                        // nhưng loại trừ các lớp đã đăng ký
-                        $registeredClassIds = $student->classRooms()
-                            ->where('semester_id', $currentSemester->id)
-                            ->pluck('class_rooms.id');
-
+                        // Lấy tất cả lớp học đang mở trong học kỳ hiện tại
                         return ClassRoom::where('semester_id', $currentSemester->id)
                             ->where('is_open', true)
-                            ->whereNotIn('id', $registeredClassIds)
                             ->with('subject')
                             ->get()
                             ->mapWithKeys(function ($classRoom) {
@@ -179,7 +171,6 @@ class ClassAdjustmentRequestResource extends Resource
                     ]),
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
                 Tables\Actions\Action::make('cancel')
                     ->label('Hủy yêu cầu')
                     ->icon('heroicon-o-x-mark')

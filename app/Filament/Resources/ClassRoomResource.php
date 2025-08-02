@@ -66,16 +66,43 @@ class ClassRoomResource extends Resource
                     ->searchable()
                     ->preload()
                     ->required(),
-                Forms\Components\TextInput::make('max_students')
+                Forms\Components\TextInput::make('capacity')
                     ->label('Số lượng sinh viên tối đa')
                     ->numeric()
                     ->default(40)
                     ->required()
                     ->minValue(1)
                     ->maxValue(100),
-                Forms\Components\Toggle::make('is_active')
-                    ->label('Kích hoạt')
+                Forms\Components\Toggle::make('is_open')
+                    ->label('Mở đăng ký')
                     ->default(true),
+//                Forms\Components\DateTimePicker::make('start_date')
+//                    ->label('Thời gian bắt đầu đăng ký')
+//                    ->nullable(),
+//                Forms\Components\DateTimePicker::make('end_date')
+//                    ->label('Thời gian kết thúc đăng ký')
+//                    ->nullable(),
+                Forms\Components\Select::make('shift')
+                    ->label('Ca học')
+                    ->options([
+                        'morning' => 'Ca sáng',
+                        'afternoon' => 'Ca chiều',
+                    ])
+                    ->nullable()
+                    ->native(false),
+                Forms\Components\Select::make('day_of_week')
+                    ->label('Thứ')
+                    ->options([
+                        'monday' => 'Thứ 2',
+                        'tuesday' => 'Thứ 3',
+                        'wednesday' => 'Thứ 4',
+                        'thursday' => 'Thứ 5',
+                        'friday' => 'Thứ 6',
+                        'saturday' => 'Thứ 7',
+                        'sunday' => 'Chủ nhật',
+                    ])
+                    ->nullable()
+                    ->native(false),
             ]);
     }
 
@@ -112,13 +139,29 @@ class ClassRoomResource extends Resource
                             $direction
                         );
                     }),
-                Tables\Columns\TextColumn::make('max_students')
+                Tables\Columns\TextColumn::make('capacity')
                     ->label('Số lượng SV tối đa')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\IconColumn::make('is_active')
-                    ->label('Kích hoạt')
+                Tables\Columns\IconColumn::make('is_open')
+                    ->label('Mở đăng ký')
                     ->boolean(),
+                Tables\Columns\TextColumn::make('start_date')
+                    ->label('Bắt đầu đăng ký')
+                    ->dateTime('d/m/Y H:i')
+                    ->sortable()
+                    ->placeholder('Chưa thiết lập'),
+                Tables\Columns\TextColumn::make('end_date')
+                    ->label('Kết thúc đăng ký')
+                    ->dateTime('d/m/Y H:i')
+                    ->sortable()
+                    ->placeholder('Chưa thiết lập'),
+                Tables\Columns\TextColumn::make('shift_name')
+                    ->label('Ca học')
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('day_of_week_name')
+                    ->label('Thứ')
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Ngày tạo')
                     ->dateTime()
@@ -152,11 +195,11 @@ class ClassRoomResource extends Resource
                     ->relationship('teacher', 'name')
                     ->searchable()
                     ->preload(),
-                Tables\Filters\TernaryFilter::make('is_active')
-                    ->label('Trạng thái')
+                Tables\Filters\TernaryFilter::make('is_open')
+                    ->label('Trạng thái đăng ký')
                     ->boolean()
-                    ->trueLabel('Đang kích hoạt')
-                    ->falseLabel('Đã vô hiệu')
+                    ->trueLabel('Mở đăng ký')
+                    ->falseLabel('Đóng đăng ký')
                     ->native(false),
             ])
             ->actions([

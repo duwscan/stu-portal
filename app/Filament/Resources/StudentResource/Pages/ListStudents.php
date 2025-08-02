@@ -3,8 +3,12 @@
 namespace App\Filament\Resources\StudentResource\Pages;
 
 use App\Filament\Resources\StudentResource;
+use App\Imports\GradeImport;
+use App\Imports\StudentImport;
+use EightyNine\ExcelImport\ExcelImportAction;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
+use Illuminate\Support\Collection;
 
 class ListStudents extends ListRecords
 {
@@ -13,6 +17,18 @@ class ListStudents extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
+            \EightyNine\ExcelImport\ExcelImportAction::make()
+            ->processCollectionUsing(function (string $modelClass, Collection $collection) {
+                return $collection;
+            })
+            ->use(StudentImport::class),
+            ExcelImportAction::make()
+            ->processCollectionUsing(function (string $modelClass, Collection $collection) {
+                return $collection;
+            })
+            ->modelLabel('Điểm')
+            ->label('Import điểm')
+            ->use(GradeImport::class),
             Actions\CreateAction::make(),
         ];
     }

@@ -57,4 +57,26 @@ class ProgramSubject extends Model
             'program_subject_id'
         )->withTimestamps();
     }
+
+    // Quan hệ với các môn học đồng thời
+    public function corequisites(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            ProgramSubject::class,
+            'subject_corequisites',
+            'program_subject_id',
+            'corequisite_id'
+        )->withTimestamps();
+    }
+
+    // Quan hệ ngược với các môn học mà môn này là đồng thời
+    public function corequisiteFor(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            ProgramSubject::class,
+            'subject_corequisites',
+            'corequisite_id',
+            'program_subject_id'
+        )->withTimestamps();
+    }
 }

@@ -15,11 +15,20 @@ class Student extends Model
         'user_id',
         'student_code',
         'training_program_id',
+        'gender',
+        'address',
+        'class',
+        'faculty',
+        'birth_date'
+    ];
+
+    protected $casts = [
+        'birth_date' => 'date',
     ];
 
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function trainingProgram(): BelongsTo
@@ -37,19 +46,7 @@ class Student extends Model
         return $this->hasMany(StudentSubject::class);
     }
 
-    public function getCurrentClassRooms()
-    {
-        $currentSemester = Semester::getCurrentSemester();
 
-        if (!$currentSemester) {
-            return collect();
-        }
-
-        return $this->classRooms()
-            ->where('semester_id', $currentSemester->id)
-            ->with(['subject', 'semester'])
-            ->get();
-    }
 
     public function semesters()
     {
