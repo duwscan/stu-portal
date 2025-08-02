@@ -31,7 +31,7 @@ class ProgramSubjectResource extends Resource
                 Forms\Components\Section::make('Thông tin môn học')
                     ->description('Chọn chương trình đào tạo và môn học')
                     ->icon('heroicon-o-academic-cap')
-                    ->columns(2)
+                    ->columns(3)
                     ->schema([
                         Forms\Components\Select::make('training_program_id')
                             ->label('Chương trình đào tạo')
@@ -88,8 +88,21 @@ class ProgramSubjectResource extends Resource
                                     ->maxValue(10),
                             ])
                             ->columnSpan(1),
+                        Forms\Components\TextInput::make('semester')
+                            ->label('Học kỳ')
+                            ->numeric()
+                            ->default(1)
+                            ->required()
+                            ->minValue(1)
+                            ->maxValue(8)
+                            ->columnSpan(1),
                         Forms\Components\Toggle::make('is_required')
                             ->label('Môn bắt buộc')
+                            ->default(true)
+                            ->inline(false)
+                            ->columnSpan(1),
+                        Forms\Components\Toggle::make('is_active')
+                            ->label('Kích hoạt')
                             ->default(true)
                             ->inline(false)
                             ->columnSpan(1),
@@ -103,6 +116,27 @@ class ProgramSubjectResource extends Resource
                             ->multiple()
                             ->relationship(
                                 'prerequisites',
+                                'id',
+                                fn ($query, $get) => $query->select('program_subjects.*')
+                                    ->join('subjects', 'subjects.id', '=', 'program_subjects.subject_id')
+                                    ->where('program_subjects.training_program_id', $get('training_program_id'))
+                                    ->where('program_subjects.id', '!=', $get('id'))
+                                    ->where('subjects.id', '!=', $get('subject_id'))
+                                    ->orderBy('subjects.name')
+                            )
+                            ->getOptionLabelFromRecordUsing(fn ($record) => $record->subject?->name)
+                            ->searchable()
+                            ->preload()
+                    ]),
+                Forms\Components\Section::make('Môn học đồng thời')
+                    ->description('Chọn các môn học trong chương trình đào tạo học đồng thời')
+                    ->icon('heroicon-o-arrows-right-left')
+                    ->schema([
+                        Forms\Components\Select::make('corequisites')
+                            ->label('Môn học đồng thời')
+                            ->multiple()
+                            ->relationship(
+                                'corequisites',
                                 'id',
                                 fn ($query, $get) => $query->select('program_subjects.*')
                                     ->join('subjects', 'subjects.id', '=', 'program_subjects.subject_id')
@@ -158,9 +192,18 @@ class ProgramSubjectResource extends Resource
                             });
                     }),
                 Tables\Columns\TextColumn::make('corequisites.subject.name')
-                    ->label('Môn học trước')
+                    ->label('Môn học đồng thời')
                     ->listWithLineBreaks()
                     ->bulleted()
+                    ->searchable(query: function (Builder $query, string $search): Builder {
+                        return $query
+                            ->whereHas('corequisites.subject', function (Builder $query) use ($search) {
+                                $query->where('subjects.name', 'like', "%{$search}%");
+                            })
+                            ->orWhereHas('subject', function (Builder $query) use ($search) {
+                                $query->where('subjects.name', 'like', "%{$search}%");
+                            });
+                    })
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('training_program_id')
@@ -226,6 +269,6 @@ class ProgramSubjectResource extends Resource
     {
         return parent::getEloquentQuery()
             ->select('program_subjects.*') // Chỉ định rõ các cột cần select
-            ->with(['trainingProgram', 'subject', 'prerequisites.subject']); // Eager load các relationship
+            ->with(['trainingProgram', 'subject', 'prerequisites.subject', 'corequisites.subject']); // Eager load các relationship
     }
 }
