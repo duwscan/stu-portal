@@ -65,6 +65,7 @@ class GradeImport implements ToCollection
                         'student_id' => $student->id,
                         'program_subject_id' => $programSubject->id,
                         'grade' => $grade,
+                        'subject_id' => $subject->id,
                     ]);
                 }
             }

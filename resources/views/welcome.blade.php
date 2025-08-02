@@ -32,7 +32,7 @@
             </header>
 
             <!-- Main Content -->
-            <main class="flex-1 flex items-center justify-center px-4 sm:px-6 lg:px-8">
+            <main class="flex-1 flex items-center justify-center px-4 sm:px-6 lg:px-8 mt-5">
                 <div class="max-w-4xl w-full">
                     <!-- Welcome Section -->
                     <div class="text-center mb-12">
@@ -51,7 +51,7 @@
                     <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
                         <!-- Student Login -->
                         <div class="group">
-                            <a href="{{ url('/student/login') }}" 
+                            <a href="{{ url('/student/login') }}"
                                class="block bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-200 hover:border-blue-300">
                                 <div class="p-8 text-center">
                                     <!-- Student Icon -->
@@ -61,12 +61,12 @@
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"></path>
                                         </svg>
                                     </div>
-                                    
+
                                     <h4 class="text-2xl font-bold text-gray-900 mb-3">Sinh viên</h4>
                                     <p class="text-gray-600 mb-6">
                                         Truy cập thông tin học tập, đăng ký môn học, xem điểm số và các dịch vụ dành cho sinh viên
                                     </p>
-                                    
+
                                     <div class="inline-flex items-center text-blue-600 font-semibold group-hover:text-blue-700">
                                         Đăng nhập dành cho Sinh viên
                                         <svg class="w-5 h-5 ml-2 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -79,7 +79,7 @@
 
                         <!-- Admin Login -->
                         <div class="group">
-                            <a href="{{ url('/admin/login') }}" 
+                            <a href="{{ url('/admin/login') }}"
                                class="block bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-200 hover:border-indigo-300">
                                 <div class="p-8 text-center">
                                     <!-- Admin Icon -->
@@ -89,12 +89,12 @@
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
                                         </svg>
                                     </div>
-                                    
+
                                     <h4 class="text-2xl font-bold text-gray-900 mb-3">Quản trị viên</h4>
                                     <p class="text-gray-600 mb-6">
                                         Quản lý hệ thống, quản lý sinh viên, chương trình đào tạo và các chức năng quản trị
                                     </p>
-                                    
+
                                     <div class="inline-flex items-center text-indigo-600 font-semibold group-hover:text-indigo-700">
                                         Đăng nhập dành cho Quản trị viên
                                         <svg class="w-5 h-5 ml-2 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -107,37 +107,27 @@
                     </div>
 
                     <!-- Features Section -->
-                    <div class="mt-16 text-center">
+                    <div class="my-16 text-center">
                         <h3 class="text-2xl font-bold text-gray-900 mb-8">Tính năng nổi bật</h3>
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div class="bg-white rounded-xl p-6 shadow-md">
                                 <div class="w-12 h-12 mx-auto mb-4 bg-green-100 rounded-lg flex items-center justify-center">
                                     <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
                                     </svg>
                                 </div>
-                                <h4 class="font-semibold text-gray-900 mb-2">Quản lý thông tin</h4>
-                                <p class="text-sm text-gray-600">Quản lý thông tin sinh viên, lớp học và chương trình đào tạo một cách hiệu quả</p>
+                                <h4 class="font-semibold text-gray-900 mb-2">Điều chỉnh tín chỉ</h4>
+                                <p class="text-sm text-gray-600">Tạo yêu cầu mở lớp, đơn điều chỉnh tín chỉ</p>
                             </div>
-                            
-                            <div class="bg-white rounded-xl p-6 shadow-md">
-                                <div class="w-12 h-12 mx-auto mb-4 bg-blue-100 rounded-lg flex items-center justify-center">
-                                    <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
-                                    </svg>
-                                </div>
-                                <h4 class="font-semibold text-gray-900 mb-2">Đăng ký học phần</h4>
-                                <p class="text-sm text-gray-600">Hệ thống đăng ký học phần trực tuyến linh hoạt và dễ sử dụng</p>
-                            </div>
-                            
+
                             <div class="bg-white rounded-xl p-6 shadow-md">
                                 <div class="w-12 h-12 mx-auto mb-4 bg-purple-100 rounded-lg flex items-center justify-center">
                                     <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
                                     </svg>
                                 </div>
-                                <h4 class="font-semibold text-gray-900 mb-2">Theo dõi kết quả</h4>
-                                <p class="text-sm text-gray-600">Theo dõi điểm số và kết quả học tập một cách chi tiết và chính xác</p>
+                                <h4 class="font-semibold text-gray-900 mb-2">Theo dõi tính trạng học phần/tín chỉ</h4>
+                                <p class="text-sm text-gray-600">Theo dõi học phần có thể đăng kí, tình trạng học tập</p>
                             </div>
                         </div>
                     </div>
@@ -148,8 +138,7 @@
             <footer class="bg-white border-t border-gray-200">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
                     <div class="text-center text-gray-600">
-                        <p>&copy; 2024 Đại học Hàng Hải Việt Nam. Tất cả quyền được bảo lưu.</p>
-                        <p class="mt-1 text-sm">Phát triển bởi Đội ngũ IT - Đại học Hàng Hải</p>
+                        <p class="mt-1 text-sm">Phát triển bởi Đội ngũ IT - Khoa CNTT Trường Đại Học Mở Hà Nội</p>
                     </div>
                 </div>
             </footer>

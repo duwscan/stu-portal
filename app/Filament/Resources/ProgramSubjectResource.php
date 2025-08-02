@@ -128,12 +128,12 @@ class ProgramSubjectResource extends Resource
                             ->searchable()
                             ->preload()
                     ]),
-                Forms\Components\Section::make('Môn học đồng thời')
+                Forms\Components\Section::make('Môn học trước')
                     ->description('Chọn các môn học trong chương trình đào tạo học đồng thời')
                     ->icon('heroicon-o-arrows-right-left')
                     ->schema([
                         Forms\Components\Select::make('corequisites')
-                            ->label('Môn học đồng thời')
+                            ->label('Môn học trước')
                             ->multiple()
                             ->relationship(
                                 'corequisites',
@@ -192,7 +192,7 @@ class ProgramSubjectResource extends Resource
                             });
                     }),
                 Tables\Columns\TextColumn::make('corequisites.subject.name')
-                    ->label('Môn học đồng thời')
+                    ->label('Môn học trước')
                     ->listWithLineBreaks()
                     ->bulleted()
                     ->searchable(query: function (Builder $query, string $search): Builder {

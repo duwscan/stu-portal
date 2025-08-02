@@ -18,12 +18,12 @@ class FeedbackResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-chat-bubble-left-right';
 
-    protected static ?string $navigationGroup = 'Quản lý phản hồi';
+    protected static ?string $navigationGroup = 'Quản lý phản hồi hệ thống';
 
     protected static ?int $navigationSort = 1;
 
-    protected static ?string $label = 'Phản hồi';
-    protected static ?string $pluralLabel = 'Phản hồi';
+    protected static ?string $label = 'Phản hồi hệ thống';
+    protected static ?string $pluralLabel = 'Phản hồi hệ thống';
 
     public static function form(Form $form): Form
     {
@@ -38,13 +38,13 @@ class FeedbackResource extends Resource
                             ->getOptionLabelFromRecordUsing(fn (Student $record) => $record->user->name . ' (' . $record->student_code . ')')
                             ->searchable(['student_code'])
                             ->preload()
+                            ->disabled(fn (Forms\Get $get) => $get('student_id') !== null)
                             ->required(),
                         Forms\Components\Select::make('category')
                             ->label('Danh mục')
                             ->options([
-                                'academic' => 'Học tập',
-                                'facility' => 'Cơ sở vật chất',
-                                'service' => 'Dịch vụ',
+                                'bug' => 'Lỗi',
+                                'wrong_display' => 'Hiển thị sai',
                                 'other' => 'Khác',
                             ])
                             ->required(),
@@ -52,16 +52,15 @@ class FeedbackResource extends Resource
                             ->label('Tiêu đề')
                             ->required()
                             ->maxLength(255)
-                            ->columnSpanFull(),
+                            ->columnSpanFull()
+                            ->disabled(),
                         Forms\Components\Textarea::make('description')
                             ->label('Mô tả chi tiết')
                             ->required()
                             ->rows(4)
-                            ->columnSpanFull(),
-                        Forms\Components\TextInput::make('tag')
-                            ->label('Thẻ phân loại')
-                            ->maxLength(255),
-                        Forms\Components\Select::make('status')
+                            ->columnSpanFull()
+                            ->disabled(),
+                Forms\Components\Select::make('status')
                             ->label('Trạng thái')
                             ->options([
                                 'pending' => 'Chờ xử lý',
@@ -98,9 +97,8 @@ class FeedbackResource extends Resource
                         default => 'gray',
                     })
                     ->formatStateUsing(fn (string $state): string => match ($state) {
-                        'academic' => 'Học tập',
-                        'facility' => 'Cơ sở vật chất',
-                        'service' => 'Dịch vụ',
+                        'bug' => 'Lỗi',
+                        'wrong_display' => 'Hiển thị sai',
                         'other' => 'Khác',
                         default => $state,
                     }),
@@ -119,10 +117,6 @@ class FeedbackResource extends Resource
                         'resolved' => 'Đã giải quyết',
                         default => $state,
                     }),
-                Tables\Columns\TextColumn::make('tag')
-                    ->label('Thẻ')
-                    ->badge()
-                    ->toggleable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Ngày tạo')
                     ->dateTime('d/m/Y H:i')
@@ -141,14 +135,6 @@ class FeedbackResource extends Resource
                         'pending' => 'Chờ xử lý',
                         'reviewed' => 'Đã xem xét',
                         'resolved' => 'Đã giải quyết',
-                    ]),
-                Tables\Filters\SelectFilter::make('category')
-                    ->label('Danh mục')
-                    ->options([
-                        'academic' => 'Học tập',
-                        'facility' => 'Cơ sở vật chất',
-                        'service' => 'Dịch vụ',
-                        'other' => 'Khác',
                     ]),
             ])
             ->actions([

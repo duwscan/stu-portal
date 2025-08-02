@@ -20,11 +20,11 @@ class FeedbackResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-chat-bubble-left-right';
 
-    protected static ?string $navigationLabel = 'Phản hồi của tôi';
+    protected static ?string $navigationLabel = 'Phản hồi hệ thống';
 
-    protected static ?string $modelLabel = 'Phản hồi';
+    protected static ?string $modelLabel = 'Phản hồi hệ thống';
 
-    protected static ?string $pluralModelLabel = 'Phản hồi';
+    protected static ?string $pluralModelLabel = 'Phản hồi hệ thống';
 
     protected static ?int $navigationSort = 90;
 
@@ -42,9 +42,8 @@ class FeedbackResource extends Resource
                         Forms\Components\Select::make('category')
                             ->label('Danh mục')
                             ->options([
-                                'academic' => 'Học tập',
-                                'facility' => 'Cơ sở vật chất',
-                                'service' => 'Dịch vụ',
+                                'bug' => 'Lỗi',
+                                'wrong_display' => 'Hiển thị sai',
                                 'other' => 'Khác',
                             ])
                             ->required(),
@@ -56,10 +55,6 @@ class FeedbackResource extends Resource
                             ->label('Mô tả chi tiết')
                             ->required()
                             ->rows(4),
-                        Forms\Components\TextInput::make('tag')
-                            ->label('Thẻ phân loại (tùy chọn)')
-                            ->maxLength(255)
-                            ->helperText('Nhập từ khóa để phân loại phản hồi'),
                     ]),
             ]);
     }
@@ -83,9 +78,8 @@ class FeedbackResource extends Resource
                         default => 'gray',
                     })
                     ->formatStateUsing(fn (string $state): string => match ($state) {
-                        'academic' => 'Học tập',
-                        'facility' => 'Cơ sở vật chất',
-                        'service' => 'Dịch vụ',
+                        'bug' => 'Lỗi',
+                        'wrong_display' => 'Hiển thị sai',
                         'other' => 'Khác',
                         default => $state,
                     }),
@@ -104,10 +98,6 @@ class FeedbackResource extends Resource
                         'resolved' => 'Đã giải quyết',
                         default => $state,
                     }),
-                Tables\Columns\TextColumn::make('tag')
-                    ->label('Thẻ')
-                    ->badge()
-                    ->toggleable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Ngày gửi')
                     ->dateTime('d/m/Y H:i')
@@ -125,9 +115,8 @@ class FeedbackResource extends Resource
                 Tables\Filters\SelectFilter::make('category')
                     ->label('Danh mục')
                     ->options([
-                        'academic' => 'Học tập',
-                        'facility' => 'Cơ sở vật chất',
-                        'service' => 'Dịch vụ',
+                        'bug' => 'Lỗi',
+                        'wrong_display' => 'Hiển thị sai',
                         'other' => 'Khác',
                     ]),
             ])

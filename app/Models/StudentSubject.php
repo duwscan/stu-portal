@@ -14,6 +14,7 @@ class StudentSubject extends Model
         'program_subject_id',
         'grade',
         'status',
+        'subject_id'
     ];
 
     protected $casts = [

@@ -23,8 +23,8 @@ class StudentResource extends Resource
 
     protected static ?int $navigationSort = 1;
 
-    protected static ?string $label = 'Học sinh';
-    protected static ?string $pluralLabel = 'Học sinh';
+    protected static ?string $label = 'Sinh viên';
+    protected static ?string $pluralLabel = 'Sinh viên';
 
     public static function form(Form $form): Form
     {
@@ -49,7 +49,7 @@ class StudentResource extends Resource
                             ->dehydrated(fn ($state) => filled($state))
                             ->required(fn (string $context): bool => $context === 'create'),
                     ]),
-                Forms\Components\Section::make('Thông tin học sinh')
+                Forms\Components\Section::make('Thông tin sinh viên')
                     ->relationship('student')
                     ->columns(2)
                     ->schema([

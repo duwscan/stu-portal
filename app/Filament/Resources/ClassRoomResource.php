@@ -146,16 +146,16 @@ class ClassRoomResource extends Resource
                 Tables\Columns\IconColumn::make('is_open')
                     ->label('Mở đăng ký')
                     ->boolean(),
-                Tables\Columns\TextColumn::make('start_date')
-                    ->label('Bắt đầu đăng ký')
-                    ->dateTime('d/m/Y H:i')
-                    ->sortable()
-                    ->placeholder('Chưa thiết lập'),
-                Tables\Columns\TextColumn::make('end_date')
-                    ->label('Kết thúc đăng ký')
-                    ->dateTime('d/m/Y H:i')
-                    ->sortable()
-                    ->placeholder('Chưa thiết lập'),
+//                Tables\Columns\TextColumn::make('start_date')
+//                    ->label('Bắt đầu đăng ký')
+//                    ->dateTime('d/m/Y H:i')
+//                    ->sortable()
+//                    ->placeholder('Chưa thiết lập'),
+//                Tables\Columns\TextColumn::make('end_date')
+//                    ->label('Kết thúc đăng ký')
+//                    ->dateTime('d/m/Y H:i')
+//                    ->sortable()
+//                    ->placeholder('Chưa thiết lập'),
                 Tables\Columns\TextColumn::make('shift_name')
                     ->label('Ca học')
                     ->sortable(),
