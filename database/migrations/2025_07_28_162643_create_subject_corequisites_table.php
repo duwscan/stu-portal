@@ -9,8 +9,8 @@ return new class extends Migration {
     {
         Schema::create('subject_corequisites', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('program_subject_id');
-            $table->foreignId('corequisite_id');
+            $table->foreignId('program_subject_id')->constrained('program_subjects')->onDelete('cascade');
+            $table->foreignId('corequisite_id')->constrained('program_subjects')->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('student_id')->constrained()->onDelete('cascade');
             $table->foreignId('semester_id')->constrained()->onDelete('cascade');
-            $table->foreignId('from_class_id')->nullable()->constrained('class_rooms')->onDelete('set null');
-            $table->foreignId('to_class_id')->nullable()->constrained('class_rooms')->onDelete('set null');
+            $table->foreignId('from_class_id')->nullable()->constrained('class_rooms')->onDelete('cascade');
+            $table->foreignId('to_class_id')->nullable()->constrained('class_rooms')->onDelete('cascade');
             $table->enum('type', ['transfer', 'drop', 'add'])->default('transfer');
             $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
             $table->text('reason');
