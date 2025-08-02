@@ -15,7 +15,7 @@ return new class extends Migration
             $table->foreignId('training_program_id')
                 ->nullable()
                 ->constrained('training_programs')
-                ->nullOnDelete();
+                ->onDelete('cascade');
         });
     }
 
