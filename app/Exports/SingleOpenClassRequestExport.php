@@ -34,7 +34,7 @@ class SingleOpenClassRequestExport implements FromArray, ShouldAutoSize, WithSty
         $data[] = ['Học kỳ:', $this->request->semester?->name ?? ''];
         $data[] = ['Người tạo yêu cầu:', $this->request->student?->user?->name ?? ''];
         $data[] = ['Mã sinh viên tạo:', $this->request->student?->student_code ?? ''];
-        $data[] = ['Trạng thái:', $this->getStatusLabel($this->request->status)];
+        $data[] = ['Trạng thái:', $this->getStatusLabel($this->request->status ?? 'pending')];
         $data[] = ['Ngày tạo:', $this->request->created_at?->format('d/m/Y H:i') ?? ''];
         $data[] = ['Ghi chú sinh viên:', $this->request->note ?? ''];
         $data[] = ['Ghi chú admin:', $this->request->admin_note ?? ''];
