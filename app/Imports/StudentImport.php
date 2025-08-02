@@ -59,6 +59,7 @@ class StudentImport implements ToCollection
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack(); // Có lỗi → rollback
+            dd($e);
             throw $e;
         }
 

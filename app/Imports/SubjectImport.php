@@ -19,6 +19,7 @@ class SubjectImport implements ToCollection
         //
 //        dd($collection[2]);
         $prerequisites = [];
+        dd(1);
         try {
             DB::beginTransaction();
             for($i = 2, $count = $collection->count(); $i < $count; $i++) {
