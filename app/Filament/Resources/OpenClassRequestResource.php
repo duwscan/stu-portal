@@ -108,6 +108,16 @@ class OpenClassRequestResource extends Resource
             ->actions([
                 Tables\Actions\ViewAction::make()
                     ->label('Xem chi tiết'),
+                Tables\Actions\Action::make('export')
+                    ->label('Xuất Excel')
+                    ->icon('heroicon-o-document-arrow-down')
+                    ->color('success')
+                    ->action(function (OpenClassRequest $record) {
+                        return \Maatwebsite\Excel\Facades\Excel::download(
+                            new \App\Exports\SingleOpenClassRequestExport($record),
+                            'yeu-cau-mo-lop-' . $record->subject?->code . '-' . now()->format('Y-m-d_H-i-s') . '.xlsx'
+                        );
+                    }),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
