@@ -35,9 +35,10 @@ class StudentPanelProvider extends PanelProvider
             ->path('student')
             ->login(Login::class)
             ->colors([
-                'primary' => Color::Amber,
+                'primary' => Color::Blue,
             ])
             ->brandName('Cổng thông tin sinh viên')
+            ->brandLogo(fn () => env('LOGO_URL'))
             ->discoverResources(in: app_path('Filament/Student/Resources'), for: 'App\\Filament\\Student\\Resources')
             ->discoverPages(in: app_path('Filament/Student/Pages'), for: 'App\\Filament\\Student\\Pages')
             ->pages([
