@@ -17,10 +17,10 @@
                                 <span class="font-medium">Mã chương trình:</span>
                                 {{ $this->getTrainingProgram()->code }}
                             </div>
-                            <div class="text-sm">
-                                <span class="font-medium">Số tín chỉ:</span>
-                                {{ $this->getTrainingProgram()->total_credits }}
-                            </div>
+{{--                            <div class="text-sm">--}}
+{{--                                <span class="font-medium">Số tín chỉ:</span>--}}
+{{--                                {{ $this->getTrainingProgram()->total_credits }}--}}
+{{--                            </div>--}}
                         </div>
                     </div>
                 @else
