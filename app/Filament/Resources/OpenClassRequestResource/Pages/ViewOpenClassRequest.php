@@ -18,6 +18,16 @@ class ViewOpenClassRequest extends ViewRecord
     protected function getHeaderActions(): array
     {
         return [
+            Actions\Action::make('export')
+                ->label('Xuất Excel')
+                ->icon('heroicon-o-document-arrow-down')
+                ->color('success')
+                ->action(function () {
+                    return \Maatwebsite\Excel\Facades\Excel::download(
+                        new \App\Exports\SingleOpenClassRequestExport($this->record),
+                        'yeu-cau-mo-lop-' . $this->record->subject?->code . '-' . now()->format('Y-m-d_H-i-s') . '.xlsx'
+                    );
+                }),
             // Actions\EditAction::make(),
         ];
     }
