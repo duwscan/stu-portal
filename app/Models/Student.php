@@ -47,7 +47,10 @@ class Student extends Model
         return $this->hasMany(StudentSubject::class);
     }
 
-
+    public function feedback(): HasMany
+    {
+        return $this->hasMany(Feedback::class);
+    }
 
     public function semesters()
     {
