@@ -12,7 +12,9 @@ class AdminAccessMiddleware
 {
     public function handle(Request $request, Closure $next): Response
     {
-        if (! auth()->check() || ! auth()->user()->hasRole('admin')) {
+        $user = auth()->user();
+
+        if (! auth()->check() || ! $user || ! $user->hasRole('admin')) {
             auth()->logout();
 
             return redirect()->route('filament.admin.auth.login')->with('error', 'Bạn không có quyền truy cập vào trang quản trị.');

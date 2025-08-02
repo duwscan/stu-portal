@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('class_rooms', function (Blueprint $table) {
             $table->id();
             $table->string('code')->unique();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade'); //teacher
             $table->foreignId('subject_id')->constrained()->onDelete('cascade');
             $table->foreignId('semester_id')->constrained()->onDelete('cascade');
             $table->integer('max_students')->default(40);
