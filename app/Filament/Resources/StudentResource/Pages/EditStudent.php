@@ -16,4 +16,17 @@ class EditStudent extends EditRecord
             Actions\DeleteAction::make(),
         ];
     }
+
+    protected function afterSave(): void
+    {
+        try {
+            if (!$this->record->hasRole('student')) {
+                $this->record->assignRole('student');
+                \Log::info('Assigned student role to user during update: ' . $this->record->id);
+            }
+        } catch (\Exception $e) {
+            \Log::error('Failed to assign student role during update: ' . $e->getMessage());
+            throw $e;
+        }
+    }
 }

@@ -11,6 +11,12 @@ class CreateStudent extends CreateRecord
 
     protected function afterCreate(): void
     {
-        $this->record->assignRole('student');
+        try {
+            $this->record->assignRole('student');
+            \Log::info('Assigned student role to user: ' . $this->record->id);
+        } catch (\Exception $e) {
+            \Log::error('Failed to assign student role: ' . $e->getMessage());
+            throw $e;
+        }
     }
 }
