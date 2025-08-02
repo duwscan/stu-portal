@@ -193,7 +193,7 @@ class ClassRoom extends Model
                 return $classStatus;
             }
         }
-
+        
         $corequisites = $programSubject->corequisites->pluck('id');
         if ($corequisites->isNotEmpty()) {
             $passedCorequisites = StudentSubject::where('student_id', $student->id)
@@ -206,6 +206,7 @@ class ClassRoom extends Model
                 return $classStatus;
             }
         }
+        
         return $classStatus;
     }
 }
