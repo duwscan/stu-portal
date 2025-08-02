@@ -16,6 +16,7 @@ class Student extends Model
         'student_code',
         'training_program_id',
         'gender',
+        'phone',
         'address',
         'class',
         'faculty',
